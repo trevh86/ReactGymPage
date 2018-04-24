@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import CustomerList from "./components/CustomerList";
-import Trainers from "./components/Trainers";
+import BookedActivities from "./components/BookedActivities";
 
 class App extends Component {
   render() {
@@ -14,10 +14,14 @@ class App extends Component {
         <BrowserRouter>
           <div>
             <Link to="/">Home</Link> <Link to="/customers">Customers</Link>{" "}
-            <Link to="/trainers">Trainers</Link>{" "}
+            <Link to="/activities">Booked Activities</Link>{" "}
             <Switch>
-              <Route exact path="/" render={() => <h2>This is the Home page</h2>} />
-              <Route exact path="/trainers" component={Trainers} />
+              <Route
+                exact
+                path="/"
+                render={() => <h2>This is the Home page</h2>}
+              />
+              <Route exact path="/activities" component={BookedActivities} />
               <Route exact path="/customers" component={CustomerList} />
             </Switch>
           </div>
