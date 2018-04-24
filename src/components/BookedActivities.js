@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import {confirmAlert} from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class BookedActivities extends Component {
   constructor(props) {
@@ -9,10 +13,10 @@ class BookedActivities extends Component {
   }
 
   componentDidMount() {
-    this.loadCustomers();
+    this.loadActivities();
   }
 
-  loadCustomers = () => {
+  loadActivities = () => {
     fetch("https://customerrest.herokuapp.com/gettrainings")
       .then(res => res.json())
       .then(resData => {
@@ -42,6 +46,19 @@ class BookedActivities extends Component {
         Header: "Activity",
         accessor: "activity",
         filterable: true
+      },
+      {
+        Header: "Delete",
+        accessor: "id",
+        filterable: false,
+        Cell: ({ value }) => (
+          <button
+            className="btn btn-link"
+            onClick={() => this.deleteActivity(value)}
+          >
+            Delete
+          </button>
+        )
       }
     ];
     return (
@@ -50,11 +67,11 @@ class BookedActivities extends Component {
           data={data}
           columns={columns}
           SubComponent={row => {
-            let x = [row.original.customer]
+            let x = [row.original.customer];
             return (
               <div className="container">
                 <ReactTable
-                  data={x} // won't work unless it's an array
+                  data={x}
                   columns={[
                     {
                       Header: "Id",
@@ -87,6 +104,19 @@ class BookedActivities extends Component {
                     {
                       Header: "Phone Number",
                       accessor: "phone"
+                    },
+                    {
+                      Header: "Delete",
+                      accessor: "id",
+                      filterable: false,
+                      Cell: ({ value }) => (
+                        <button
+                          className="btn btn-link"
+                          onClick={() => this.deleteCustomer(value)}
+                        >
+                          Delete
+                        </button>
+                      )
                     }
                   ]}
                   minRows={1}
@@ -96,9 +126,59 @@ class BookedActivities extends Component {
             );
           }}
         />
+        <ToastContainer autoClose={1500}/>
       </div>
     );
   }
+
+  deleteActivity = value => {
+    confirmAlert({
+      title: "Confirm to submit",
+      message: "Are your sure you want to do this?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            fetch("https://customerrest.herokuapp.com/api/trainings/" + value, {method: 'DELETE'})
+              .then(res => {
+                this.loadActivities();
+                toast.success("Successfully Deleted Customer!", {
+                  position: toast.POSITION.BOTTOM_CENTER
+                })
+              });
+          }
+        },
+        {
+          label: "No"
+        }
+      ]
+    })
+  };
+
+  deleteCustomer = value => {
+    confirmAlert({
+      title: "Confirm to submit",
+      message: "Are your sure you want to do this?",
+      buttons: [
+        {
+          label: "Yes",
+          onClick: () => {
+            fetch("https://customerrest.herokuapp.com/api/customers/" + value, {method: 'DELETE'})
+              .then(res => {
+                this.loadActivities();
+                toast.success("Successfully Deleted Customer!", {
+                  position: toast.POSITION.BOTTOM_CENTER
+                })
+              });
+          }
+        },
+        {
+          label: "No"
+        }
+      ]
+    })
+  }
+
 }
 
 export default BookedActivities;
