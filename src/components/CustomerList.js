@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import {confirmAlert} from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import AddCustomer from "./AddCustomer";
+import EditCustomer from "./EditCustomer";
+import EditActivity from "./EditActivity";
+import AddActivity from "./AddActivity";
 
 class CustomerList extends Component {
   constructor(props) {
@@ -39,7 +42,7 @@ class CustomerList extends Component {
   y = () => {
     let x = [...this.state.customers];
     this.state.customers.map((item, index) => {
-      this.state.customerBookings.map((item2, index2) => {
+      this.state.customerBookings.map(item2 => {
         if (
           item.firstname === item2.customer.firstname &&
           item.lastname === item2.customer.lastname &&
@@ -102,6 +105,7 @@ class CustomerList extends Component {
         Header: "Delete",
         accessor: "links[0].href",
         filterable: false,
+        sortable: false,
         Cell: ({ value }) => (
           <button
             className="btn btn-link"
@@ -110,14 +114,31 @@ class CustomerList extends Component {
             Delete
           </button>
         )
+      },
+      {
+        Header: "Edit",
+        accessor: "links[0].href",
+        filterable: false,
+        sortable: false,
+        Cell: ({ row, value }) => (
+          <div>{console.log(row)}
+          <EditCustomer
+            updateCustomer={this.updateCustomer}
+            link={value}
+            customer={row}
+          /></div>
+        )
       }
     ];
     return (
       <div className="container">
+        <AddCustomer addCustomer={this.addCustomer} />
+        <AddActivity addActivity={this.addActivity} />
         <ReactTable
           data={data}
           columns={columns}
           minRows={1}
+          className="-striped -highlight"
           SubComponent={row => {
             return (
               <div>
@@ -126,28 +147,25 @@ class CustomerList extends Component {
                   columns={[
                     {
                       Header: "Id",
-                      accessor: "id",
-                      filterable: true
+                      accessor: "id"
                     },
                     {
                       Header: "Activity",
-                      accessor: "activity",
-                      filterable: true
+                      accessor: "activity"
                     },
                     {
                       Header: "Date",
-                      accessor: "date",
-                      filterable: true
+                      accessor: "date"
                     },
                     {
                       Header: "Duration",
-                      accessor: "duration",
-                      filterable: true
+                      accessor: "duration"
                     },
                     {
                       Header: "Delete",
                       accessor: "id",
                       filterable: false,
+                      sortable: false,
                       Cell: ({ value }) => (
                         <button
                           className="btn btn-link"
@@ -156,19 +174,74 @@ class CustomerList extends Component {
                           Delete
                         </button>
                       )
+                    },
+                    {
+                      Header: "Edit",
+                      accessor: "id",
+                      filterable: false,
+                      sortable: false,
+                      Cell: ({ row, value }) => (
+                        <EditActivity
+                          updateActivity={this.updateActivity}
+                          link={"https://customerrest.herokuapp.com/api/trainings/" + value}
+                          activity={row}
+                        />
+                      )
                     }
                   ]}
                   minRows={1}
+                  className="-striped -highlight"
                   showPaginationBottom={false}
                 />
               </div>
             );
           }}
         />
-        <ToastContainer autoClose={1500}/>
+        <ToastContainer autoClose={1500} />
       </div>
     );
   }
+
+  addActivity = newActivity => {
+    fetch("https://customerrest.herokuapp.com/api/trainings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newActivity)
+    }).then(() => {
+      this.loadCustomers();
+      toast.success("Activity Added Successfully!", {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+    });
+  };
+
+  updateActivity = (link, activity) => {
+    fetch(link, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(activity)
+    }).then(() => {
+      this.loadCustomers();
+      toast.success("Successfully Edited Activity!", {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+    });
+  };
+
+  updateCustomer = (link, activity) => {
+    console.log(link);
+    fetch(link, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(activity)
+    }).then(() => {
+      this.loadCustomers();
+      toast.success("Successfully Edited Customer!", {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+    });
+  };
+
   deleteCustomer = value => {
     confirmAlert({
       title: "Confirm to submit",
@@ -177,20 +250,32 @@ class CustomerList extends Component {
         {
           label: "Yes",
           onClick: () => {
-            fetch(value, {method: 'DELETE'})
-              .then(res => {
-                this.loadCustomers();
-                toast.success("Successfully Deleted Customer!", {
-                  position: toast.POSITION.BOTTOM_CENTER
-                })
+            fetch(value, { method: "DELETE" }).then(() => {
+              this.loadCustomers();
+              toast.success("Successfully Deleted Customer!", {
+                position: toast.POSITION.BOTTOM_CENTER
               });
+            });
           }
         },
         {
           label: "No"
         }
       ]
-    })
+    });
+  };
+
+  addCustomer = newCustomer => {
+    fetch("https://customerrest.herokuapp.com/api/customers", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newCustomer)
+    }).then(() => {
+      this.loadCustomers();
+      toast.success("Customer Added Successfully!", {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+    });
   };
 
   deleteActivity = value => {
@@ -201,22 +286,22 @@ class CustomerList extends Component {
         {
           label: "Yes",
           onClick: () => {
-            fetch("https://customerrest.herokuapp.com/api/trainings/" + value, {method: 'DELETE'})
-              .then(res => {
-                this.loadCustomers();
-                toast.success("Successfully Deleted Customer!", {
-                  position: toast.POSITION.BOTTOM_CENTER
-                })
+            fetch("https://customerrest.herokuapp.com/api/trainings/" + value, {
+              method: "DELETE"
+            }).then(() => {
+              this.loadCustomers();
+              toast.success("Successfully Deleted Customer!", {
+                position: toast.POSITION.BOTTOM_CENTER
               });
+            });
           }
         },
         {
           label: "No"
         }
       ]
-    })
+    });
   };
-
 }
 
 export default CustomerList;
