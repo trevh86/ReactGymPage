@@ -3,6 +3,7 @@ import "./App.css";
 import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 import CustomerList from "./components/CustomerList";
 import BookedActivities from "./components/BookedActivities";
+import Calendar from "./components/Calendar";
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
           <div>
             <Link to="/">Home</Link> <Link to="/customers">Customers</Link>{" "}
             <Link to="/activities">Booked Activities</Link>{" "}
+            <Link to="/calendar">Calendar</Link>{" "}
             <Switch>
               <Route
                 exact
@@ -23,6 +25,7 @@ class App extends Component {
               />
               <Route exact path="/activities" component={BookedActivities} />
               <Route exact path="/customers" component={CustomerList} />
+              <Route exact path="/calendar" component={Calendar} />
             </Switch>
           </div>
         </BrowserRouter>

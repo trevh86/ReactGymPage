@@ -44,6 +44,7 @@ class CustomerList extends Component {
     this.state.customers.map((item, index) => {
       this.state.customerBookings.map(item2 => {
         if (
+          item2.customer !== null &&
           item.firstname === item2.customer.firstname &&
           item.lastname === item2.customer.lastname &&
           item.streetaddress === item2.customer.streetaddress &&
