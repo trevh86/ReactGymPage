@@ -28,7 +28,7 @@ class Calendar extends Component {
     let x = [];
     this.state.activities.map((item, index) => {
       let y = moment(this.state.activities[index].date).add(this.state.activities[index].duration, 'm').toDate();
-      x[index] = {
+      return x[index] = {
         id: index,
         title: `${this.state.activities[index].activity}`,
         start: moment(this.state.activities[index].date).toDate(),

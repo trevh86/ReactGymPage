@@ -8,6 +8,7 @@ import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
 import EditActivity from "./EditActivity";
 import AddActivity from "./AddActivity";
+import moment from "moment";
 
 class CustomerList extends Component {
   constructor(props) {
@@ -33,7 +34,10 @@ class CustomerList extends Component {
   loadCustomerBookings = () => {
     fetch("https://customerrest.herokuapp.com/gettrainings")
       .then(res => res.json())
-      .then(resData => {
+      .then(resData => {console.log(resData);
+        resData.map((v, i) => {
+          return resData[i].date = moment((resData[i].date)).format("MMM Do YY");
+        });
         this.setState({ customerBookings: resData });
       })
       .then(() => this.y());
@@ -58,8 +62,9 @@ class CustomerList extends Component {
           } else {
             x[index].trainings = [item2];
           }
-        }
+        } return x[index].trainings;
       });
+      return x[index].trainings;
     });
     this.setState({ customers: x });
   };
@@ -122,7 +127,7 @@ class CustomerList extends Component {
         filterable: false,
         sortable: false,
         Cell: ({ row, value }) => (
-          <div>{console.log(row)}
+          <div>
           <EditCustomer
             updateCustomer={this.updateCustomer}
             link={value}

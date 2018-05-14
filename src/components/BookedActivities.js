@@ -9,6 +9,7 @@ import AddActivity from "./AddActivity";
 import EditActivity from "./EditActivity";
 import EditCustomer from "./EditCustomer";
 import AddCustomer from "./AddCustomer";
+import moment from "moment";
 
 class BookedActivities extends Component {
   constructor(props) {
@@ -24,6 +25,10 @@ class BookedActivities extends Component {
     fetch("https://customerrest.herokuapp.com/gettrainings")
       .then(res => res.json())
       .then(resData => {
+        console.log(resData);
+        resData.map((v, i) => {
+          return resData[i].date = moment((resData[i].date)).format("MMM Do YY");
+        });
         this.setState({ activities: resData });
       });
   };
