@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="282e8e89-9a1a-4499-a227-8a7d7fa84691" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/BookedActivities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BookedActivities.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Calendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Calendar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CustomerList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CustomerList.js" afterDir="false" />
-    </list>
+    <list default="true" id="282e8e89-9a1a-4499-a227-8a7d7fa84691" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -235,7 +230,7 @@
       <workItem from="1524597645141" duration="16940000" />
       <workItem from="1526240150077" duration="9966000" />
       <workItem from="1526286321989" duration="3360000" />
-      <workItem from="1526301539378" duration="1642000" />
+      <workItem from="1526301539378" duration="1878000" />
     </task>
     <task id="LOCAL-00001" summary="Commented out test data">
       <created>1526291660159</created>
@@ -244,11 +239,18 @@
       <option name="project" value="LOCAL" />
       <updated>1526291660159</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fixing date format and removing warnings">
+      <created>1526303399872</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1526303399872</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88075000" />
+    <option name="totallyTimeSpent" value="88311000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="934" y="0" width="993" height="1038" extended-state="0" />
@@ -259,7 +261,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32893288" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.17" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.17" />
       <window_info id="npm" order="2" sideWeight="0.50163937" side_tool="true" weight="0.24921466" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32777777" />
@@ -282,7 +284,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Commented out test data" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commented out test data" />
+    <MESSAGE value="fixing date format and removing warnings" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing date format and removing warnings" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

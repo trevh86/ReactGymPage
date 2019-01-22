@@ -29,7 +29,7 @@ class CustomerList extends Component {
       .then(() => this.loadCustomerBookings());
   };
 
-  // Do fetch in load customers and push training data to object at that index
+  // Do fetch in load customers and push training data to object at that index!!
 
   loadCustomerBookings = () => {
     fetch("https://customerrest.herokuapp.com/gettrainings")
@@ -40,33 +40,33 @@ class CustomerList extends Component {
         });
         this.setState({ customerBookings: resData });
       })
-      .then(() => this.mergeCustomerAndBookings());
+      .then(() => this.y());
   };
 
-  mergeCustomerAndBookings = () => {
-    let customerJSON = [...this.state.customers];
-    this.state.customers.map((customerItem, customerIndex) => { // Nested map to make comparisons between two arrays
-      this.state.customerBookings.map(bookingItem => {
-        if ( // Error checking to avoid bad matches and errors. Nulls are allowed in the database.
-          bookingItem.customer !== null &&
-          customerItem.firstname === bookingItem.customer.firstname &&
-          customerItem.lastname === bookingItem.customer.lastname &&
-          customerItem.streetaddress === bookingItem.customer.streetaddress &&
-          customerItem.postcode === bookingItem.customer.postcode &&
-          customerItem.city === bookingItem.customer.city &&
-          customerItem.email === bookingItem.customer.email &&
-          customerItem.phone === bookingItem.customer.phone
+  y = () => {
+    let x = [...this.state.customers];
+    this.state.customers.map((item, index) => {
+      this.state.customerBookings.map(item2 => {
+        if (
+          item2.customer !== null &&
+          item.firstname === item2.customer.firstname &&
+          item.lastname === item2.customer.lastname &&
+          item.streetaddress === item2.customer.streetaddress &&
+          item.postcode === item2.customer.postcode &&
+          item.city === item2.customer.city &&
+          item.email === item2.customer.email &&
+          item.phone === item2.customer.phone
         ) {
-          if (Array.isArray(customerJSON[customerIndex].trainings)) { // Checking to make sure an array has been created with this function yet. If not then create one.
-            customerJSON[customerIndex].trainings = [...customerJSON[customerIndex].trainings, bookingItem];
+          if (Array.isArray(x[index].trainings)) {
+            x[index].trainings = [...x[index].trainings, item2];
           } else {
-            customerJSON[customerIndex].trainings = [bookingItem];
+            x[index].trainings = [item2];
           }
-        } return customerJSON[customerIndex].trainings;
+        } return x[index].trainings;
       });
-      return customerJSON[customerIndex].trainings;
+      return x[index].trainings;
     });
-    this.setState({ customers: customerJSON });
+    this.setState({ customers: x });
   };
 
   render() {

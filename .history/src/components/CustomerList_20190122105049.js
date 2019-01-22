@@ -29,7 +29,7 @@ class CustomerList extends Component {
       .then(() => this.loadCustomerBookings());
   };
 
-  // Do fetch in load customers and push training data to object at that index
+  // Do fetch in load customers and push training data to object at that index!!
 
   loadCustomerBookings = () => {
     fetch("https://customerrest.herokuapp.com/gettrainings")
@@ -40,14 +40,14 @@ class CustomerList extends Component {
         });
         this.setState({ customerBookings: resData });
       })
-      .then(() => this.mergeCustomerAndBookings());
+      .then(() => this.mergeCustomerAndTrainings());
   };
 
-  mergeCustomerAndBookings = () => {
+  mergeCustomerAndTrainings = () => {
     let customerJSON = [...this.state.customers];
-    this.state.customers.map((customerItem, customerIndex) => { // Nested map to make comparisons between two arrays
+    this.state.customers.map((customerItem, customerIndex) => {
       this.state.customerBookings.map(bookingItem => {
-        if ( // Error checking to avoid bad matches and errors. Nulls are allowed in the database.
+        if (
           bookingItem.customer !== null &&
           customerItem.firstname === bookingItem.customer.firstname &&
           customerItem.lastname === bookingItem.customer.lastname &&
@@ -57,7 +57,7 @@ class CustomerList extends Component {
           customerItem.email === bookingItem.customer.email &&
           customerItem.phone === bookingItem.customer.phone
         ) {
-          if (Array.isArray(customerJSON[customerIndex].trainings)) { // Checking to make sure an array has been created with this function yet. If not then create one.
+          if (Array.isArray(customerJSON[customerIndex].trainings)) {
             customerJSON[customerIndex].trainings = [...customerJSON[customerIndex].trainings, bookingItem];
           } else {
             customerJSON[customerIndex].trainings = [bookingItem];

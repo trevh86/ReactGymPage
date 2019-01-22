@@ -29,7 +29,7 @@ class CustomerList extends Component {
       .then(() => this.loadCustomerBookings());
   };
 
-  // Do fetch in load customers and push training data to object at that index
+  // Do fetch in load customers and push training data to object at that index!!
 
   loadCustomerBookings = () => {
     fetch("https://customerrest.herokuapp.com/gettrainings")
@@ -40,10 +40,10 @@ class CustomerList extends Component {
         });
         this.setState({ customerBookings: resData });
       })
-      .then(() => this.mergeCustomerAndBookings());
+      .then(() => this.mergeCustomerAndTrainings());
   };
 
-  mergeCustomerAndBookings = () => {
+  mergeCustomerAndTrainings = () => {
     let customerJSON = [...this.state.customers];
     this.state.customers.map((customerItem, customerIndex) => { // Nested map to make comparisons between two arrays
       this.state.customerBookings.map(bookingItem => {
